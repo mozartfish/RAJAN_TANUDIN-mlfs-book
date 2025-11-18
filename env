@@ -1,0 +1,16 @@
+# If you have your own Hopsworks cluster, set is IP address or FQDN here
+#HOPSWORKS_HOST=
+# If you have multiple Hopsworks projects, set the name of your project here
+#HOPSWORKS_PROJECT=
+
+HOPSWORKS_API_KEY=KWIvOGMnOzbhoRxV.v1FU7ApDmOLXb9QrWUY3kkXJMj2AwutEhu8ECuhj5gPJccmiCzpQUfACHzSrE6Pw
+
+AQICN_API_KEY=375d06f6610db4ef4adca8d747c50b27630faf12
+
+# Streaming in Credit Card Example
+FELDERA_API_KEY=<Feldera API KEY VALUE>
+# Clone feldera from github and store it in this directory
+FELDERA_DIR=</home/$USER/feldera>
+
+# LLM Examples
+OPENAI_API_KEY=<OPENAI API KEY VALUE>
