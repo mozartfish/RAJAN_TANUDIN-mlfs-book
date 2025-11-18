@@ -4,18 +4,18 @@
 **Course**: Machine Learning Feature Store Systems  
 **Date**: November 18th 2025
 
-## 📋 Lab Overview
+## Lab Overview
 
 This project extends the O'Reilly book's air quality prediction system by implementing **lagged time-series features** to improve PM2.5 (particulate matter) predictions for San Francisco air quality sensors. The system uses Hopsworks Feature Store, XGBoost regression, and processes data from 6 different air quality sensors across San Francisco.
 
-## 🎯 Project Objectives
+## Project Objectives
 
 1. **Implement Lagged Features**: Add 1-day, 2-day, and 3-day lagged PM2.5 values as features
 2. **Measure Performance Impact**: Compare baseline model (weather only) vs. full model (weather + lagged features)
 3. **Multi-Sensor Predictions**: Generate predictions for 6 San Francisco air quality sensors
 4. **Feature Analysis**: Analyze correlation and feature importance of lagged features
 
-## 🏗️ System Architecture
+## System Architecture
 
 ```
 ┌─────────────────────┐
@@ -176,64 +176,8 @@ features = ['pm25_lag1', 'pm25_lag2', 'pm25_lag3',
 - Generate 7-day forecast
 - Create hindcast comparison graph
 
-#### **Notebook 5: LLM Function Calling** (`5_function_calling.ipynb`)
-- Natural language queries about air quality
-- Uses Hugging Face LLM with function calling
-- Limited lagged features support (uses original model)
-
-#### **NEW: Multi-Sensor Predictions** (`MULTI_SENSOR_BATCH_PREDICTIONS.ipynb`)
+#### **Multi-Sensor Predictions** (`MULTI_SENSOR_BATCH_PREDICTIONS.ipynb`)
 - Generate predictions for all 6 sensors
 - Individual lagged features per sensor
 - Create separate forecast graphs
 - Export combined predictions CSV
-
-## Technical Deep Dive
-
-### Lagged Features: Mathematical Formulation
-
-For a time series $y_t$ (PM2.5 at time $t$), lagged features are:
-
-$$
-\begin{align}
-y_{t-1} &= \text{pm25\_lag1} \quad \text{(1-day lag)} \\
-y_{t-2} &= \text{pm25\_lag2} \quad \text{(2-day lag)} \\
-y_{t-3} &= \text{pm25\_lag3} \quad \text{(3-day lag)}
-\end{align}
-$$
-
-The model predicts:
-$$
-\hat{y}_t = f(y_{t-1}, y_{t-2}, y_{t-3}, \mathbf{x}_t)
-$$
-
-Where $\mathbf{x}_t$ are weather features (temperature, wind, precipitation).
-
-### Feature Engineering Pipeline
-
-```python
-# Pseudocode for lagged feature creation
-def create_lagged_features(df, lags=[1, 2, 3]):
-    for lag in lags:
-        df[f'pm25_lag{lag}'] = df['pm25'].shift(lag)
-    
-    # Remove rows with NaN (first 'max(lags)' rows)
-    df = df.dropna()
-    return df
-```
-
-### Model Training
-
-- **Algorithm**: XGBoost Regression
-- **Loss Function**: Mean Squared Error (MSE)
-- **Train/Test Split**: Time-based (2025-05-01 split date)
-- **Features**: 7 (3 lagged + 4 weather)
-- **Target**: PM2.5 concentration (µg/m³)
-
-### Prediction Pipeline
-
-1. **Fetch Weather Forecast**: 7-day forecast from Open-Meteo API
-2. **Retrieve Historical PM2.5**: Last 3 days from feature store
-3. **Calculate Lags**: Extract lag1, lag2, lag3 values
-4. **Model Inference**: XGBoost prediction
-5. **Generate Graphs**: Matplotlib visualization
-6. **Store Results**: Monitoring feature group
