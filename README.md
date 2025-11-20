@@ -4,6 +4,8 @@
 **Course**: Machine Learning Feature Store Systems  
 **Date**: November 18th 2025
 
+**Dashboard**: https://mozartfish.github.io/RAJAN_TANUDIN-mlfs-book/air-quality/ 
+
 ## Lab Overview
 
 This project extends the O'Reilly book's air quality prediction system by implementing **lagged time-series features** to improve PM2.5 (particulate matter) predictions for San Francisco air quality sensors. The system uses Hopsworks Feature Store, XGBoost regression, and processes data from 6 different air quality sensors across San Francisco.
